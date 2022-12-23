@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 import json
+import os
 import sys
 
 from mparser import MParser
@@ -13,6 +14,8 @@ def create_parser():
     parser = argparse.ArgumentParser(description='Parse mediainfo output')
     parser.add_argument('--file', help='input file, instead of stardard input',
                         dest="file", default=None, action='store')
+    parser.add_argument('--dir', help='input directory, instead of stardard input',
+                        dest="dir", default=None, action='store')
 
     parser.add_argument('--json-all', help='print all as Json',
                         dest="print_all", default=False, action='store_true')
@@ -32,11 +35,7 @@ def create_parser():
     return parser
 
 
-def main():
-    parser = create_parser()
-    args = parser.parse_args()
-    file = args.file
-
+def run_for_file(args, file):
     mparser = MParser(file)
     mparser.parse()
 
@@ -80,6 +79,20 @@ def main():
                     print(mparser.regrouped["General"][field])
                 else:
                     print(NOT_AVAILABLE)
+
+
+def main():
+    parser = create_parser()
+    args = parser.parse_args()
+    directory = args.dir
+
+    if directory:
+        for root, dirs, files in os.walk(directory):
+            for name in files:
+                run_for_file(args, os.path.join(root, name))
+    else:
+        file = args.file
+        run_for_file(args, file)
     sys.exit(0)
 
 
