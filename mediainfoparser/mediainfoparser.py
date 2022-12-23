@@ -11,19 +11,20 @@ INDENT = 2
 
 def create_parser():
     parser = argparse.ArgumentParser(description='Parse mediainfo output')
-    parser.add_argument('--file', help='Input file', dest="file", default=None, action='store')
+    parser.add_argument('--file', help='input file, instead of stardard input',
+                        dest="file", default=None, action='store')
 
-    parser.add_argument('--json-all', help='Print all as Json',
+    parser.add_argument('--json-all', help='print all as Json',
                         dest="print_all", default=False, action='store_true')
-    parser.add_argument('--json-general-only', help='Print General section only as Json',
+    parser.add_argument('--json-general-only', help='print General section only as Json',
                         dest="print_general_only", default=False, action='store_true')
 
-    parser.add_argument('--track-type', help='Track type of interest',
+    parser.add_argument('--track-type', help='track type of interest',
                         dest="track_type", default=None, choices={"Audio", "Video", "Text"}, action='store')
     parser.add_argument('--track-numbers', nargs='+', help='Track numbers of interest',
                         dest="track_numbers", default=[], action='store')
 
-    parser.add_argument('--number-of-tracks', help='Returns number of tracks of given type',
+    parser.add_argument('--number-of-tracks', help='returns number of tracks of given type',
                         dest="number_of_tracks", default=False, action='store_true')
 
     parser.add_argument('--fields', nargs='+', help='fields to output, one per line',
