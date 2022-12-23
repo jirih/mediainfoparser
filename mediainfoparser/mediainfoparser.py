@@ -57,8 +57,8 @@ def main():
     if print_all:
         if track_type is not None:
             track_numbers = expand_track_numbers(track_numbers, mparser, track_type)
-            print(json.dumps(
-                {k: v for k, v in mparser.regrouped[track_type].items() if k in track_numbers}, indent=INDENT))
+            output = {k: v for k, v in mparser.regrouped[track_type].items() if k in track_numbers}
+            print(json.dumps(output, indent=INDENT))
 
         else:
             print(json.dumps(mparser.regrouped, indent=INDENT))
