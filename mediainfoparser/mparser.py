@@ -28,13 +28,15 @@ class MParser:
 
     def regroup_group(self, group):
         self.regrouped[group] = {}
-        if "%s #1" % group not in self.parsed:
-            self.regrouped[group][0] = self.parsed[group]
-        else:
-            for section in self.parsed:
-                r = re.search(r"%s #(\d+)" % group, section)
-                if r is not None:
-                    self.regrouped[group][int(r.group(1)) - 1] = self.parsed["%s #%s" % (group, r.group(1))]
+
+        if "%s" % group in self.parsed or "%s #1" % group in self.parsed:
+            if "%s #1" % group not in self.parsed:
+                self.regrouped[group][0] = self.parsed[group]
+            else:
+                for section in self.parsed:
+                    r = re.search(r"%s #(\d+)" % group, section)
+                    if r is not None:
+                        self.regrouped[group][int(r.group(1)) - 1] = self.parsed["%s #%s" % (group, r.group(1))]
 
     def parse(self):
         with open(self.file, 'r') if self.file is not None else sys.stdin as reader:
